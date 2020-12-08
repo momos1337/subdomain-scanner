@@ -4,7 +4,7 @@
 #=        Author : 4LM05TH3V!L                 =#
 #= thx: Ethical Hacker Indonesia, C99, IndoSec =#
 #=           Made With Love                    =#
-#----------------------------------------------=#
+#=---------------------------------------------=#
 system("clear") or system("cls");
 $green = "\e[0;32m";
 $red = "\e[31;1m";
