@@ -2,7 +2,7 @@
 #=---------------------------------------------=#
 #=          Subdomain Scanner                  =#
 #=        Author : 4LM05TH3V!L                 =#
-#= thx: Ethical Hacker Indonesia, C99, IndoSec =#
+#=  thx: Ethical Hacker Indonesia, IndoSec     =#
 #=           Made With Love                    =#
 #=---------------------------------------------=#
 system("clear") or system("cls");
@@ -35,18 +35,23 @@ $patt = "'<td><a href=\"([^<]*)\">([^<]*)</a></td>'si";
 preg_match_all("$patt", $exec , $resp);
 for ($i=0; $i< count($resp[0]); $i++){
     $curl = curl_init();
-    $arrx =  array($curl, 
-    CURLOPT_URL => "https://subdomainfinder.c99.nl/uptime_checker.php?host=".$resp[2][$i]."&json=&token=44619",
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_COOKIEJAR => "cookie.txt");
-    curl_setopt_array($curl, $arrx);
-    $exec = curl_exec($curl);
-$data = json_decode($exec, true);
-if($data['success'] == "true"){
-echo "$green"; echo $data['host']; echo " => "; echo $data['code'];
-echo "\n";
+$result = $resp[2][$i];
+$res = "$result";
+$url = $res;
+$curl = curl_init();
+curl_setopt($curl, CURLOPT_URL, $url);
+curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$exec = curl_exec($curl);
+
+if ($exec === false) {
+    echo "$red"; echo $resp[2][$i]; echo " => Error Domain\n";
 } else {
-echo "$red"; echo $resp[2][$i]; echo " => Error Domain !\n";
+    $newUrl = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    if ($newUrl !== $url) {
+    echo "$green"; echo $resp[2][$i]; echo " => $newUrl\n";
+    }
 }
 }
 unlink("cookie.txt");
