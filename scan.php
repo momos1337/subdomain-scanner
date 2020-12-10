@@ -54,5 +54,4 @@ if ($exec === false) {
     }
 }
 }
-unlink("cookie.txt");
 ?>
